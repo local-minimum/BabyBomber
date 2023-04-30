@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CircularTransform))]
 public class Wind2D : MonoBehaviour
 {   
     [Range(0, 100)]
@@ -11,11 +12,16 @@ public class Wind2D : MonoBehaviour
     [SerializeField, Range(0, 10)]
     float turbulence;
 
-    Vector3 Up { get => transform.position.normalized; }
+    CircularTransform ct;    
 
     Vector3 TurbulenceVector { get => new Vector3(Random.Range(-turbulence, turbulence), Random.Range(-turbulence, turbulence)); }
 
     List<Rigidbody2D> bodies = new List<Rigidbody2D>();
+
+    private void Start()
+    {
+        ct = GetComponent<CircularTransform>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -37,9 +43,10 @@ public class Wind2D : MonoBehaviour
 
     private void Update()
     {
+        var up = ct.Up;
         foreach (Rigidbody2D rb in bodies)
         {
-            rb.AddForce((Up * mainForce + TurbulenceVector) * Time.deltaTime, ForceMode2D.Impulse);
+            rb.AddForce((up * mainForce + TurbulenceVector) * Time.deltaTime, ForceMode2D.Impulse);
         }
     }
 }

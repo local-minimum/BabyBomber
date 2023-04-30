@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CircularTransform))]
 public class CameraZoom : MonoBehaviour
 {
     [SerializeField]
@@ -19,25 +20,19 @@ public class CameraZoom : MonoBehaviour
     Camera cam;
 
     Rigidbody2D rb;
+    CircularTransform ct;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    float Elevation
-    {
-        get
-        {
-            return transform.position.magnitude;
-        }
+        ct = GetComponent<CircularTransform>();
     }
 
     float CamSize
     {
         get
         {
-            return Mathf.Lerp(minSize, maxSize, (Elevation - minElevation) / (maxElevation - minElevation));
+            return Mathf.Lerp(minSize, maxSize, (ct.Elevation - minElevation) / (maxElevation - minElevation));
         }
     }
 

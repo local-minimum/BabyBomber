@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CircularTransform))]
 public class FlightController : MonoBehaviour
 {
     [SerializeField]
@@ -21,28 +22,17 @@ public class FlightController : MonoBehaviour
     [SerializeField]
     float anglePerSecond = 30f;
 
+    CircularTransform ct;
+
     private void Start()
     {
+        ct = GetComponent<CircularTransform>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    Vector3 Down
-    {
-        get => transform.position.normalized * -1f;        
-    }
-
-    Vector3 AngularDirection
-    {
-        get
-        {            
-            var down = Down;
-            return new Vector3(-down.y, down.x);
-        }
     }
 
     private void Update()
     {
-        var angular = AngularDirection;
+        var angular = ct.AngularDirection;
         var forwardMagnitude = Vector3.Project(rb.velocity, angular).magnitude;
 
         if (Input.GetButton("Horizontal"))
@@ -53,7 +43,7 @@ public class FlightController : MonoBehaviour
 
         if (Input.GetButton("Vertical"))
         {
-            var down = Down;
+            var down = ct.Down;
             var up = Input.GetAxis("Vertical");
             if (up > 0)
             {
@@ -66,6 +56,6 @@ public class FlightController : MonoBehaviour
             }
         }
 
-        rb.AddForce(-1f * Down * liftByForwardSpeed.Evaluate(forwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
+        rb.AddForce(-1f * ct.Down * liftByForwardSpeed.Evaluate(forwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
     }
 }

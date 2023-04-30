@@ -13,6 +13,9 @@ public class BabyLauncher : MonoBehaviour
     [SerializeField]
     float launchForce = 40f;
 
+    [SerializeField]
+    Camera babyCam;
+
     public int babies = 10;
 
     [SerializeField, Range(0, 360)]
@@ -23,6 +26,9 @@ public class BabyLauncher : MonoBehaviour
     private void Start()
     {
         body = GetComponentInParent<Rigidbody2D>();
+        babyCam.enabled = false;
+        babyCam.GetComponent<BabyCamera>().enabled = false;
+        Altometer.instance.SetElevation(0);
     }
 
     private void Update()
@@ -43,6 +49,11 @@ public class BabyLauncher : MonoBehaviour
             rb.AddForce(direction * launchForce, ForceMode2D.Impulse);
 
             rb.angularVelocity = Random.Range(-maxAngularBabyVelocity, maxAngularBabyVelocity);
+
+            babyCam.transform.parent = child.transform;
+            babyCam.transform.localPosition = Vector3.forward * -10;
+            babyCam.enabled = true;
+            babyCam.GetComponent<BabyCamera>().enabled = true;
 
             babies--;
         }

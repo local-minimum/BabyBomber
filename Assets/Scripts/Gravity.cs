@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(CircularTransform))]
 public class Gravity : MonoBehaviour
 {
     static float gravitation = 10f;
@@ -14,16 +14,16 @@ public class Gravity : MonoBehaviour
     float magicPrivateGFactor = 1f;
 
     Rigidbody2D rb;
+    CircularTransform ct;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        ct = GetComponent<CircularTransform>();
     }
 
     private void Update()
-    {
-        var d = transform.position.magnitude;
-        var v = transform.position.normalized * -1f;        
-        rb.AddForce(v * magicPrivateGFactor * Mathf.Lerp(gravitation, minGravitation, (d - gravitationDecayAt) / (minGravityAt - gravitationDecayAt)) * Time.deltaTime, ForceMode2D.Impulse);
+    {        
+        rb.AddForce(ct.Down * magicPrivateGFactor * Mathf.Lerp(gravitation, minGravitation, (ct.Elevation - gravitationDecayAt) / (minGravityAt - gravitationDecayAt)) * Time.deltaTime, ForceMode2D.Impulse);
     }
 }
