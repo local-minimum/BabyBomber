@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StartButton : MonoBehaviour
 {
-    // Update is called once per frame
+    [SerializeField]
+    string nextScene;
+
     void Update()
     {
         if (Input.GetButton("Jump"))
@@ -16,6 +18,6 @@ public class StartButton : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene(nextScene);
     }
 }
