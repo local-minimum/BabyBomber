@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Baby : MonoBehaviour
-{
-    // Start is called before the first frame update
-    
+{    
     public void Catch()
     {
         var cam = GetComponentInChildren<BabyCamera>();
         if (cam)
         {
-            cam.transform.parent = null;
-            BabyLauncher.instance.readyToLaunch = true;
+            cam.ReleaseCamera();
             Destroy(gameObject);
         }
     } 

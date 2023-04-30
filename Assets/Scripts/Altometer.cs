@@ -25,6 +25,8 @@ public class Altometer : MonoBehaviour
             instance = null;
         }
     }
+    [SerializeField]
+    TMPro.TextMeshProUGUI text;
 
     [SerializeField]
     Image image;
@@ -37,6 +39,14 @@ public class Altometer : MonoBehaviour
 
     public void SetElevation(float elevation)
     {
-        image.fillAmount = Mathf.Clamp01((elevation - minElevation) / (maxElevation - minElevation));
+        if (image != null)
+        {
+            image.fillAmount = Mathf.Clamp01((elevation - minElevation) / (maxElevation - minElevation));
+        }
+        if (text)
+        {
+            var value = Mathf.FloorToInt(Mathf.Max(elevation - minElevation, 0)).ToString("000");
+            text.text = value;
+        }
     }
 }

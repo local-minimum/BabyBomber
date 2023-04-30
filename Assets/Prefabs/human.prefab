@@ -685,4 +685,4 @@ MonoBehaviour:
   moveSpeed: 20
   collector: {fileID: 8241780540860106711}
   caughtVersion: {fileID: 7502346282340894369}
-  cradleTime: 20
+  cradleTime: 30
