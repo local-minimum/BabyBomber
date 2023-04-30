@@ -27,7 +27,7 @@ public class Refiller : MonoBehaviour
             if (Time.timeSinceLevelLoad - entry > refillDuration)
             {
                 BabyLauncher.instance.babies = Mathf.Min(BabyLauncher.instance.babies + 1, maxBabies);
-                entry = Time.timeSinceLevelLoad;
+                entry = Time.timeSinceLevelLoad;    
             }
         }
 
