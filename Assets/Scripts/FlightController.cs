@@ -34,7 +34,7 @@ public class FlightController : MonoBehaviour
 
     private void Update()
     {
-        var angular = ct.AngularDirection;
+        var angular = ct.AngularForward;
         var forwardMagnitude = ct.ForwardMagnitude(rb.velocity);
         var absForwardMagnitude = Mathf.Abs(forwardMagnitude);
 

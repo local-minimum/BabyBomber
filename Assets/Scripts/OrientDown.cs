@@ -5,6 +5,9 @@ using UnityEngine;
 [ExecuteAlways, RequireComponent(typeof(CircularTransform))]
 public class OrientDown : MonoBehaviour
 {
+    [SerializeField]
+    bool isStatic = false;
+
     CircularTransform _ct;
     CircularTransform ct { 
         get { 
@@ -16,10 +19,16 @@ public class OrientDown : MonoBehaviour
         } 
     }
 
+    private void Start()
+    {
+        if (isStatic)
+        {
+            enabled = false;
+        }
+    }
 
     void Update()
     {
-        if (ct == null) Debug.Log($"{name} misses CT");
         transform.rotation = Quaternion.Euler(0, 0, -Mathf.Sign(transform.position.x) * Vector3.Angle(Vector3.down, ct.Down));
     }
 }

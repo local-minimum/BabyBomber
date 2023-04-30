@@ -21,7 +21,16 @@ public class BabyLauncher : MonoBehaviour
     [SerializeField]
     Camera babyCam;
 
-    public int babies = 10;
+    int _babies = 0;
+    public int babies
+    {
+        get => _babies;
+        set
+        {
+            _babies = value;
+            counter.Count = value;
+        }
+    }
 
     [SerializeField, Range(0, 360)]
     float maxAngularBabyVelocity = 30f;
@@ -30,6 +39,9 @@ public class BabyLauncher : MonoBehaviour
 
     [HideInInspector]
     public bool readyToLaunch = true;
+
+    [SerializeField]
+    PrefixedCounter counter;
 
     private void Start()
     {
@@ -45,6 +57,7 @@ public class BabyLauncher : MonoBehaviour
         babyCam.enabled = false;
         babyCam.GetComponent<BabyCamera>().enabled = false;
         Altometer.instance.SetElevation(0);
+        counter.Count = babies;
     }
 
     private void OnDestroy()
