@@ -30,15 +30,18 @@ public class FlightController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    float flipThreshold = 0.1f;
+
     private void Update()
     {
         var angular = ct.AngularDirection;
-        var forwardMagnitude = Vector3.Project(rb.velocity, angular).magnitude;
+        var forwardMagnitude = ct.ForwardMagnitude(rb.velocity);
+        var absForwardMagnitude = Mathf.Abs(forwardMagnitude);
 
         if (Input.GetButton("Horizontal"))
         {
             var forward = Input.GetAxis("Horizontal");
-            rb.AddForce(angular * forward * forwardForceByVelocity.Evaluate(forwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
+            rb.AddForce(angular * forward * forwardForceByVelocity.Evaluate(absForwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
         }
 
         if (Input.GetButton("Vertical"))
@@ -56,6 +59,14 @@ public class FlightController : MonoBehaviour
             }
         }
 
-        rb.AddForce(-1f * ct.Down * liftByForwardSpeed.Evaluate(forwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
+        rb.AddForce(-1f * ct.Down * liftByForwardSpeed.Evaluate(absForwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
+
+        if (forwardMagnitude > flipThreshold && transform.localScale.x < 0)
+        {
+            transform.localScale = Vector3.one;
+        } else if (forwardMagnitude < -flipThreshold && transform.localScale.x > 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }

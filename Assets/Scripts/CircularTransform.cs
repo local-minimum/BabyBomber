@@ -17,6 +17,7 @@ public class CircularTransform : MonoBehaviour
             return new Vector3(-down.y, down.x);
         }
     }
+
     public float Elevation
     {
         get
@@ -26,4 +27,6 @@ public class CircularTransform : MonoBehaviour
         }
     }
 
+    public float ForwardMagnitude(Vector3 v) => Vector3.Dot(AngularDirection, v);
+    
 }

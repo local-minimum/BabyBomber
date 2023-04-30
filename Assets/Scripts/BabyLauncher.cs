@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class BabyLauncher : MonoBehaviour
 {
+    public static BabyLauncher instance { get; private set; }
+
     [SerializeField]
     GameObject babyPrefab;
 
     [SerializeField]
     Transform launchSite;
+
+    [SerializeField]
+    Transform rocketBase;
 
     [SerializeField]
     float launchForce = 40f;
@@ -23,21 +28,40 @@ public class BabyLauncher : MonoBehaviour
 
     Rigidbody2D body;
 
+    [HideInInspector]
+    public bool readyToLaunch = true;
+
     private void Start()
     {
+        if (instance == null)
+        {
+            instance = this;
+        } else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         body = GetComponentInParent<Rigidbody2D>();
         babyCam.enabled = false;
         babyCam.GetComponent<BabyCamera>().enabled = false;
         Altometer.instance.SetElevation(0);
     }
 
+    private void OnDestroy()
+    {
+        if (instance == this)
+        {
+            instance = null;
+        }
+    }
+
     private void Update()
     {
-        if (babies <= 0) return;
+        if (babies <= 0 || !readyToLaunch) return;
 
         if (Input.GetButtonDown("Jump"))
         {
-            var direction = transform.right;
+            var direction = (launchSite.position - rocketBase.position).normalized;
 
             var child = Instantiate(babyPrefab);
 
@@ -56,6 +80,7 @@ public class BabyLauncher : MonoBehaviour
             babyCam.GetComponent<BabyCamera>().enabled = true;
 
             babies--;
+            readyToLaunch = false;
         }
     }
 }
