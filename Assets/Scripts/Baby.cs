@@ -9,8 +9,11 @@ public class Baby : MonoBehaviour
     public void Catch()
     {
         var cam = GetComponentInChildren<BabyCamera>();
-        cam.transform.parent = null;
-        BabyLauncher.instance.readyToLaunch = true;
-        Destroy(gameObject);
-    }
+        if (cam)
+        {
+            cam.transform.parent = null;
+            BabyLauncher.instance.readyToLaunch = true;
+            Destroy(gameObject);
+        }
+    } 
 }

@@ -42,16 +42,21 @@ public class BabyCamera : MonoBehaviour
                 lastMove = Time.timeSinceLevelLoad;
             }
         } else if (Time.timeSinceLevelLoad > landedDelay + lastMove)
-        {           
-            babyRb = null;
-            transform.parent = null;
-            enabled = false;
-            GetComponent<Camera>().enabled = false;
-            BabyLauncher.instance.readyToLaunch = true;
-            BabyCamOffHud.Active = true;
-            Altometer.instance.SetElevation(0);
+        {
+            ReleaseCamera();
         }
 
         Altometer.instance.SetElevation(ct.Elevation);
+    }
+
+    public void ReleaseCamera()
+    {
+        babyRb = null;
+        transform.parent = null;
+        enabled = false;
+        GetComponent<Camera>().enabled = false;
+        BabyLauncher.instance.readyToLaunch = true;
+        BabyCamOffHud.Active = true;
+        Altometer.instance.SetElevation(0);
     }
 }

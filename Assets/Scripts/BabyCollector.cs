@@ -15,6 +15,7 @@ public class BabyCollector : MonoBehaviour
         {
             OnCollectBaby?.Invoke();
             baby.Catch();
+            GetComponentInParent<Human>().Catch();
         }
     }
 }
