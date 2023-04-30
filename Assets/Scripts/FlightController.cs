@@ -18,6 +18,9 @@ public class FlightController : MonoBehaviour
     [SerializeField]
     float downForce = 20f;
 
+    [SerializeField]
+    float anglePerSecond = 30f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -41,7 +44,6 @@ public class FlightController : MonoBehaviour
     {
         var angular = AngularDirection;
         var forwardMagnitude = Vector3.Project(rb.velocity, angular).magnitude;
-        Debug.Log(forwardMagnitude);
 
         if (Input.GetButton("Horizontal"))
         {
@@ -56,9 +58,11 @@ public class FlightController : MonoBehaviour
             if (up > 0)
             {
                 rb.AddForce(-1f * down * up * upForce * Time.deltaTime, ForceMode2D.Impulse);
+                rb.velocity = Vector3.RotateTowards(rb.velocity, -down, anglePerSecond * Mathf.Deg2Rad * Time.deltaTime, 0);
             } else
             {
                 rb.AddForce(-1f * down * up * downForce * Time.deltaTime, ForceMode2D.Impulse);
+                rb.velocity = Vector3.RotateTowards(rb.velocity, down, anglePerSecond * Mathf.Deg2Rad * Time.deltaTime, 0);
             }
         }
 
