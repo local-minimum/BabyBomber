@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PrefixedCounter : MonoBehaviour
 {
+    [SerializeField]
     TMPro.TextMeshProUGUI gui;
 
     [SerializeField]
@@ -16,14 +17,11 @@ public class PrefixedCounter : MonoBehaviour
         get => count;
         set {
             count = value;
+            if (gui == null)
+            {
+                gui = GetComponent<TMPro.TextMeshProUGUI>();
+            }
             gui.text = $"{prefix}{count}";
         }
     }
-
-    private void Start()
-    {
-        gui = GetComponent<TMPro.TextMeshProUGUI>();
-    }
-
-
 }

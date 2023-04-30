@@ -3475,7 +3475,7 @@ GameObject:
   - component: {fileID: 900185414}
   - component: {fileID: 900185415}
   m_Layer: 5
-  m_Name: Deliveries
+  m_Name: Orders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3499,7 +3499,7 @@ RectTransform:
   m_AnchorMin: {x: 0.01, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 50}
+  m_SizeDelta: {x: 305.97, y: 50}
   m_Pivot: {x: 0, y: 1.1}
 --- !u!114 &900185412
 MonoBehaviour:
@@ -3521,7 +3521,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Deliveries: 0'
+  m_text: 'Orders: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3610,7 +3610,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64119e448ba06754dbf777ff84d04cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefix: 'Deliveries: '
+  gui: {fileID: 900185412}
+  prefix: 'Orders:  '
 --- !u!114 &900185415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3623,6 +3624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb450bcb7cc099f4ba32f987a8df1769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredDeliveries: 6
   counter: {fileID: 900185414}
 --- !u!1 &901080440
 GameObject:
@@ -11529,6 +11531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64119e448ba06754dbf777ff84d04cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gui: {fileID: 0}
   prefix: 'On board: '
 --- !u!1 &1549544856
 GameObject:
