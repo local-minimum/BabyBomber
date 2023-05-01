@@ -25,8 +25,15 @@ public class Altometer : MonoBehaviour
             instance = null;
         }
     }
+
     [SerializeField]
-    TMPro.TextMeshProUGUI text;
+    TMPro.TextMeshProUGUI letter1;
+
+    [SerializeField]
+    TMPro.TextMeshProUGUI letter2;
+
+    [SerializeField]
+    TMPro.TextMeshProUGUI letter3;
 
     [SerializeField]
     Image image;
@@ -43,10 +50,12 @@ public class Altometer : MonoBehaviour
         {
             image.fillAmount = Mathf.Clamp01((elevation - minElevation) / (maxElevation - minElevation));
         }
-        if (text)
+        if (letter1 && letter2 && letter3)
         {
-            var value = Mathf.FloorToInt(Mathf.Max(elevation - minElevation, 0)).ToString("000");
-            text.text = value;
+            var value = Mathf.FloorToInt(Mathf.Clamp(elevation - minElevation, 0, 999)).ToString("000");
+            letter1.text = value.Substring(0, 1);
+            letter2.text = value.Substring(1, 1);
+            letter3.text = value.Substring(2, 1);
         }
     }
 }
