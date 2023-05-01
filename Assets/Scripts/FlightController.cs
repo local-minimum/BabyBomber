@@ -22,6 +22,9 @@ public class FlightController : MonoBehaviour
     [SerializeField]
     float anglePerSecond = 30f;
 
+    [SerializeField]
+    Transform flipTarget;
+
     CircularTransform ct;
 
     private void Start()
@@ -61,12 +64,13 @@ public class FlightController : MonoBehaviour
 
         rb.AddForce(-1f * ct.Down * liftByForwardSpeed.Evaluate(absForwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
 
-        if (forwardMagnitude > flipThreshold && transform.localScale.x < 0)
+        // Orienting the Stork
+        if (forwardMagnitude > flipThreshold && flipTarget.localScale.x < 0)
         {
-            transform.localScale = Vector3.one;
-        } else if (forwardMagnitude < -flipThreshold && transform.localScale.x > 0)
+            flipTarget.localScale = Vector3.one;
+        } else if (forwardMagnitude < -flipThreshold && flipTarget.localScale.x > 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            flipTarget.localScale = new Vector3(-1, 1, 1);
         }
     }
 }
