@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Refiller : MonoBehaviour
 {
-    [SerializeField]
-    int maxBabies = 5;
 
     [SerializeField]
     float refillDuration = 1f;
@@ -24,12 +22,21 @@ public class Refiller : MonoBehaviour
     {
         if (collision.GetComponent<FlightController>())
         {
-            if (Time.timeSinceLevelLoad - entry > refillDuration)
+            if (BabyLauncher.instance.babies >= BabyLauncher.instance.MaxBabies) return;
+
+            var progress = Mathf.Clamp01((Time.timeSinceLevelLoad - entry) / refillDuration);
+            BabyLauncher.instance.BabyLoadingProgress(progress);
+
+            if (progress >= 1)
             {
-                BabyLauncher.instance.babies = Mathf.Min(BabyLauncher.instance.babies + 1, maxBabies);
+                BabyLauncher.instance.babies = Mathf.Min(BabyLauncher.instance.babies + 1, BabyLauncher.instance.MaxBabies);
                 entry = Time.timeSinceLevelLoad;    
             }
         }
+    }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        BabyLauncher.instance.BabyLoadingProgress(0);
     }
 }

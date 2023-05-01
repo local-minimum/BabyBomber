@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BabyLauncher : MonoBehaviour
 {
@@ -21,14 +22,31 @@ public class BabyLauncher : MonoBehaviour
     [SerializeField]
     Camera babyCam;
 
+    [SerializeField]
+    Image[] babyImages;
+
+    public int MaxBabies
+    {
+        get => babyImages.Length;
+    }
+
+    public void BabyLoadingProgress(float value)
+    {
+        if (babies >= MaxBabies) return;
+        babyImages[babies].fillAmount = value;
+    }
+
     int _babies = 0;
     public int babies
     {
         get => _babies;
         set
         {
-            _babies = value;
-            counter.Count = value;
+            _babies = Mathf.Min(value, MaxBabies);
+            for (int i=0; i<MaxBabies; i++)
+            {
+                babyImages[i].fillAmount = i < _babies ? 1 : 0;
+            }
         }
     }
 
@@ -39,9 +57,6 @@ public class BabyLauncher : MonoBehaviour
 
     [HideInInspector]
     public bool readyToLaunch = true;
-
-    [SerializeField]
-    PrefixedCounter counter;
 
     private void Start()
     {
@@ -57,7 +72,7 @@ public class BabyLauncher : MonoBehaviour
         babyCam.enabled = false;
         babyCam.GetComponent<BabyCamera>().enabled = false;
         Altometer.instance.SetElevation(0);
-        counter.Count = babies;
+        babies = 0;
     }
 
     private void OnDestroy()
