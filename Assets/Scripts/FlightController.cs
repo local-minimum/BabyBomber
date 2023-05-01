@@ -25,6 +25,9 @@ public class FlightController : MonoBehaviour
     [SerializeField]
     Transform flipTarget;
 
+    [SerializeField]
+    float maxElevation = 200;
+
     CircularTransform ct;
 
     private void Start()
@@ -37,6 +40,7 @@ public class FlightController : MonoBehaviour
 
     private void Update()
     {
+        var elevation = ct.Elevation;
         var angular = ct.AngularForward;
         var forwardMagnitude = ct.ForwardMagnitude(rb.velocity);
         var absForwardMagnitude = Mathf.Abs(forwardMagnitude);
@@ -63,6 +67,16 @@ public class FlightController : MonoBehaviour
         }
 
         rb.AddForce(-1f * ct.Down * liftByForwardSpeed.Evaluate(absForwardMagnitude) * Time.deltaTime, ForceMode2D.Impulse);
+
+        // Cap flight height
+        if (elevation > maxElevation)
+        {
+            var upSpeed = ct.UpwardMagnitude(rb.velocity);
+            if (upSpeed > 0)
+            {
+                rb.velocity -= upSpeed * ct.Up2D;
+            }
+        }
 
         // Orienting the Stork
         if (forwardMagnitude > flipThreshold && flipTarget.localScale.x < 0)

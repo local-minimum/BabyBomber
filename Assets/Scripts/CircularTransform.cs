@@ -8,6 +8,8 @@ public class CircularTransform : MonoBehaviour
 
     public Vector3 Up { get => transform.position.normalized; }
 
+    public Vector2 Up2D { get => new Vector2(transform.transform.position.x, transform.position.y).normalized;  }
+
     public Vector3 AngularForward
     {
         get
@@ -18,6 +20,9 @@ public class CircularTransform : MonoBehaviour
     }
 
     public float ForwardMagnitude(Vector3 v) => Vector3.Dot(AngularForward, v);
+
+    public float UpwardMagnitude(Vector3 v) => Vector3.Dot(Up, v);
+
     public float Elevation
     {
         get
